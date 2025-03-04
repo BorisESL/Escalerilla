@@ -7,15 +7,15 @@ let tournamentData = {
             { id: 3, name: "Lissette Bernales" },
             { id: 4, name: "Harry Triantafilo" },
             { id: 5, name: "Marcelo Henriquez" },
-            { id: 6, name: "Claudio Guilardes" }
+            { id: 6, name: "Claudio Guilardes" },
             { id: 1, name: "Sergio Daza" },
             { id: 2, name: "Pablo Diaz" },
             { id: 3, name: "Derek Brain" },
             { id: 4, name: "Antonio Bustos" },
             { id: 5, name: "Manuel Heredia" },
-            { id: 6, name: "Leonardo Garrido" }
-            { id: 6, name: "Cesar Bernales" }
-            { id: 6, name: "Michael Bernales" }
+            { id: 6, name: "Leonardo Garrido" },
+            { id: 6, name: "Cesar Bernales" },
+            { id: 6, name: "Michael Bernales" },
             { id: 6, name: "Diego leiva" }
         ],
         standings: []
