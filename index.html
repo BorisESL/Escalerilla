@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneo de Tenis</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+
+<body>
+    <h1>Torneo de Tenis</h1>
+
+    <div class="card">
+        <h2>Registrar Partido</h2>
+        <select id="category-select">
+            <option value="oro">Oro</option>
+            <option value="plata" selected>Plata</option>
+            <option value="bronce">Bronce</option>
+        </select>
+        <form id="match-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="player1">Jugador 1:</label>
+                    <select id="player1" required>
+                        <option value="">-- Seleccionar jugador --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="player2">Jugador 2:</label>
+                    <select id="player2" required>
+                        <option value="">-- Seleccionar jugador --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="set1-player1">Set 1:</label>
+                    <div class="score-container">
+                        <input type="number" id="set1-player1" class="score-input" min="0" max="7" required>
+                        <span>-</span>
+                        <input type="number" id="set1-player2" class="score-input" min="0" max="7" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="set2-player1">Set 2:</label>
+                    <div class="score-container">
+                        <input type="number" id="set2-player1" class="score-input" min="0" max="7" required>
+                        <span>-</span>
+                        <input type="number" id="set2-player2" class="score-input" min="0" max="7" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="set3-player1">Set 3 (Super Tiebreak, opcional):</label>
+                    <div class="score-container">
+                        <input type="number" id="set3-player1" class="score-input" min="0">
+                        <span>-</span>
+                        <input type="number" id="set3-player2" class="score-input" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="rules">
+                <strong>Sistema de puntuación:</strong>
+                <ul>
+                    <li>Victoria en 2 sets: 3 puntos para el ganador, 0 para el perdedor</li>
+                    <li>Victoria en 3 sets: 2 puntos para el ganador, 1 para el perdedor</li>
+                </ul>
+            </div>
+
+            <div class="buttons">
+                <button type="button" id="new-player-btn" class="btn btn-secondary">Añadir Jugador</button>
+                <button type="submit" class="btn btn-primary">Registrar Partido</button>
+                <button type="button" id="reset-btn" class="btn btn-secondary">Reiniciar Torneo</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Tabla de Posiciones</h2>
+        <table id="standings-table">
+            <thead>
+                <tr>
+                    <th class="sortable" data-sort="position">Lugar</th>
+                    <th class="sortable" data-sort="name">Nombre</th>
+                    <th class="sortable" data-sort="points">Puntos</th>
+                    <th class="sortable" data-sort="matches">Partidos Jugados</th>
+                    <th class="sortable" data-sort="winDiff">Dif Triunfos</th>
+                    <th class="sortable" data-sort="setDiff">Dif Sets</th>
+                    <th class="sortable" data-sort="gameDiff">Dif Juegos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Datos de la tabla -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="new-player-modal">
+        <div>
+            <h3>Añadir Nuevo Jugador</h3>
+            <div style="margin-bottom: 15px;">
+                <label for="new-player-name" style="display: block; margin-bottom: 5px;">Nombre del Jugador:</label>
+                <input type="text" id="new-player-name" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button id="cancel-new-player" style="padding: 8px 15px; border: none; border-radius: 4px; background-color: #f44336; color: white; cursor: pointer;">Cancelar</button>
+                <button id="save-new-player" style="padding: 8px 15px; border: none; border-radius: 4px; background-color: #2e7d32; color: white; cursor: pointer;">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/main.js"></script>
+</body>
+
+</html>
