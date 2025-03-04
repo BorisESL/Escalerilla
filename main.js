@@ -8,15 +8,14 @@ let tournamentData = {
             { id: 4, name: "Harry Triantafilo" },
             { id: 5, name: "Marcelo Henriquez" },
             { id: 6, name: "Claudio Guilardes" },
-            { id: 1, name: "Sergio Daza" },
-            { id: 2, name: "Pablo Diaz" },
-            { id: 3, name: "Derek Brain" },
-            { id: 4, name: "Antonio Bustos" },
-            { id: 5, name: "Manuel Heredia" },
-            { id: 6, name: "Leonardo Garrido" },
-            { id: 6, name: "Cesar Bernales" },
-            { id: 6, name: "Michael Bernales" },
-            { id: 6, name: "Diego leiva" }
+            { id: 7, name: "Sergio Daza" },
+            { id: 8, name: "Derek Brain" },
+            { id: 9, name: "Antonio Bustos" },
+            { id: 10, name: "Manuel Heredia" },
+            { id: 11, name: "Leonardo Garrido" },
+            { id: 12, name: "Cesar Bernales" },
+            { id: 13, name: "Michael Bernales" },
+            { id: 14, name: "Diego leiva" }
         ],
         standings: []
     },
@@ -77,8 +76,8 @@ let tournamentData = {
             { id: 25, name: "Juan Ovando" },
             { id: 26, name: "Nicolás Ruiz" },
             { id: 27, name: "Brayan Toledo" },
-            { id: 28, name: "Jordan Solar" },
-            { id: 29, name: "Alfredo Saez" }
+            { id: 28, name: "Jordan Solar" }
+            
         ],
         standings: []
     }
