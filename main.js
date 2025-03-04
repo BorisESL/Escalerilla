@@ -8,6 +8,15 @@ let tournamentData = {
             { id: 4, name: "Harry Triantafilo" },
             { id: 5, name: "Marcelo Henriquez" },
             { id: 6, name: "Claudio Guilardes" }
+            { id: 1, name: "Sergio Daza" },
+            { id: 2, name: "Pablo Diaz" },
+            { id: 3, name: "Derek Brain" },
+            { id: 4, name: "Antonio Bustos" },
+            { id: 5, name: "Manuel Heredia" },
+            { id: 6, name: "Leonardo Garrido" }
+            { id: 6, name: "Cesar Bernales" }
+            { id: 6, name: "Michael Bernales" }
+            { id: 6, name: "Diego leiva" }
         ],
         standings: []
     },
@@ -41,12 +50,35 @@ let tournamentData = {
     },
     bronce: {
         players: [
-            { id: 1, name: "Juan Pérez" },
-            { id: 2, name: "Luis Sánchez" },
-            { id: 3, name: "Miguel Rodríguez" },
-            { id: 4, name: "Diego Vargas" },
-            { id: 5, name: "Pablo López" },
-            { id: 6, name: "Carlos Ruiz" }
+            { id: 1, name: "Pablo Fuentes" },
+            { id: 2, name: "Germán Vidal" },
+            { id: 3, name: "Juan Manuel González" },
+            { id: 4, name: "Julio Jaramillo" },
+            { id: 5, name: "Agustín Salgado" },
+            { id: 6, name: "Guillermo Gajardo" },
+            { id: 7, name: "Rubén Carvajal" },
+            { id: 8, name: "Sebastián Figueroa" },
+            { id: 9, name: "Héctor Zurita" },
+            { id: 10, name: "Alberto Chandia" },
+            { id: 11, name: "Ruy Mendoza" },
+            { id: 12, name: "Santiago Mahnke" },
+            { id: 13, name: "Ivan Paredes" },
+            { id: 14, name: "Arnaldo Olivari" },
+            { id: 15, name: "Javier Rodríguez" },
+            { id: 16, name: "Tomás Colina" },
+            { id: 17, name: "Guillermo Salazar" },
+            { id: 18, name: "Manuel Parada" },
+            { id: 19, name: "Geovanny Colina" },
+            { id: 20, name: "Ramón Aravena" },
+            { id: 21, name: "Franco Carvajal" },
+            { id: 22, name: "Pedro Castro" },
+            { id: 23, name: "David Mendoza" },
+            { id: 24, name: "Pedro Acevedo" },
+            { id: 25, name: "Juan Ovando" },
+            { id: 26, name: "Nicolás Ruiz" },
+            { id: 27, name: "Brayan Toledo" },
+            { id: 28, name: "Jordan Solar" },
+            { id: 29, name: "Alfredo Saez" }
         ],
         standings: []
     }
@@ -69,7 +101,7 @@ window.onload = function () {
 
     // Configurar selector de categoría
     const categorySelect = document.getElementById('category-select');
-    categorySelect.addEventListener('change', function() {
+    categorySelect.addEventListener('change', function () {
         currentCategory = this.value;
         populatePlayerDropdowns();
         updateStandingsTable();
@@ -320,7 +352,7 @@ document.getElementById('save-new-player').addEventListener('click', function ()
     }
 
     const categoryPlayers = tournamentData[currentCategory].players;
-    
+
     // Generar nuevo ID
     const newId = categoryPlayers.length > 0 ? Math.max(...categoryPlayers.map(p => p.id)) + 1 : 1;
 
