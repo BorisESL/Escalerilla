@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h1>Torneo de Tenis</h1>
+    <h1>Escalerilla Club de Tenis chiguayante</h1>
 
     <div class="card">
         <h2>Registrar Partido</h2>
@@ -95,6 +95,39 @@
                 <!-- Datos de la tabla -->
             </tbody>
         </table>
+    </div>
+
+    <!-- Nueva sección de Historial de Partidos -->
+    <div class="card">
+        <h2>Historial de Partidos</h2>
+        <div class="history-filters">
+            <label for="history-category-select">Categoría:</label>
+            <select id="history-category-select">
+                <option value="oro">Oro</option>
+                <option value="plata" selected>Plata</option>
+                <option value="bronce">Bronce</option>
+            </select>
+        </div>
+        <div class="history-container">
+            <table id="match-history-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Jugador 1</th>
+                        <th>Jugador 2</th>
+                        <th>Resultado</th>
+                        <th>Ganador</th>
+                        <th>Puntos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Datos del historial -->
+                </tbody>
+            </table>
+            <div id="no-history-message" class="no-data-message">
+                No hay partidos registrados en esta categoría.
+            </div>
+        </div>
     </div>
 
     <div id="new-player-modal">

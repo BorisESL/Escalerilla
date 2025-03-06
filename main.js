@@ -17,7 +17,8 @@ let tournamentData = {
             { id: 13, name: "Michael Bernales" },
             { id: 14, name: "Diego leiva" }
         ],
-        standings: []
+        standings: [],
+        matchHistory: [] // Nuevo array para historial de partidos
     },
     plata: {
         players: [
@@ -45,7 +46,8 @@ let tournamentData = {
             { id: 22, name: "Rodrigo Sanhueza" },
             { id: 23, name: "Alfredo Saez" }
         ],
-        standings: []
+        standings: [],
+        matchHistory: [] // Nuevo array para historial de partidos
     },
     bronce: {
         players: [
@@ -79,11 +81,13 @@ let tournamentData = {
             { id: 28, name: "Jordan Solar" }
             
         ],
-        standings: []
+        standings: [],
+        matchHistory: [] // Nuevo array para historial de partidos
     }
 };
 
 let currentCategory = 'plata'; // Categoría por defecto
+let historyCategory = 'plata'; // Categoría para el historial (inicialmente igual a la actual)
 
 // Cargar datos guardados si existen
 window.onload = function () {
@@ -91,6 +95,13 @@ window.onload = function () {
 
     if (savedTournamentData) {
         tournamentData = JSON.parse(savedTournamentData);
+        
+        // Asegurar que todas las categorías tengan un array de historial
+        Object.keys(tournamentData).forEach(category => {
+            if (!tournamentData[category].matchHistory) {
+                tournamentData[category].matchHistory = [];
+            }
+        });
     } else {
         // Inicializar standings para cada categoría
         Object.keys(tournamentData).forEach(category => {
@@ -98,7 +109,7 @@ window.onload = function () {
         });
     }
 
-    // Configurar selector de categoría
+    // Configurar selector de categoría para el registro
     const categorySelect = document.getElementById('category-select');
     categorySelect.addEventListener('change', function () {
         currentCategory = this.value;
@@ -106,8 +117,16 @@ window.onload = function () {
         updateStandingsTable();
     });
 
+    // Configurar selector de categoría para el historial
+    const historyCategorySelect = document.getElementById('history-category-select');
+    historyCategorySelect.addEventListener('change', function () {
+        historyCategory = this.value;
+        updateMatchHistoryTable();
+    });
+
     populatePlayerDropdowns();
     updateStandingsTable();
+    updateMatchHistoryTable();
 };
 
 function initializeStandings(category) {
@@ -123,6 +142,9 @@ function initializeStandings(category) {
         gamesWon: 0,
         gamesLost: 0
     }));
+    
+    // Inicializar historial de partidos
+    tournamentData[category].matchHistory = [];
 }
 
 function populatePlayerDropdowns() {
@@ -184,6 +206,57 @@ function updateStandingsTable() {
         `;
         tableBody.appendChild(row);
     });
+}
+
+// Actualizar tabla de historial de partidos
+function updateMatchHistoryTable() {
+    const tableBody = document.querySelector('#match-history-table tbody');
+    const noHistoryMessage = document.getElementById('no-history-message');
+    
+    tableBody.innerHTML = '';
+    
+    // Obtener historial de la categoría seleccionada
+    const history = tournamentData[historyCategory].matchHistory;
+    
+    // Mostrar mensaje si no hay partidos
+    if (history.length === 0) {
+        noHistoryMessage.style.display = 'block';
+        document.getElementById('match-history-table').style.display = 'none';
+    } else {
+        noHistoryMessage.style.display = 'none';
+        document.getElementById('match-history-table').style.display = 'table';
+        
+        // Ordenar por fecha (más reciente primero)
+        const sortedHistory = [...history].sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        sortedHistory.forEach(match => {
+            const row = document.createElement('tr');
+            
+            // Formatear la fecha
+            const matchDate = new Date(match.date);
+            const formattedDate = `${matchDate.getDate()}/${matchDate.getMonth() + 1}/${matchDate.getFullYear()} ${matchDate.getHours()}:${String(matchDate.getMinutes()).padStart(2, '0')}`;
+            
+            // Formatear el resultado
+            let resultText = `${match.set1[0]}-${match.set1[1]}, ${match.set2[0]}-${match.set2[1]}`;
+            if (match.set3[0] !== null && match.set3[1] !== null) {
+                resultText += `, ${match.set3[0]}-${match.set3[1]}`;
+            }
+            
+            // Formatear los puntos
+            const pointsText = `${match.winnerPoints}-${match.loserPoints}`;
+            
+            row.innerHTML = `
+                <td>${formattedDate}</td>
+                <td>${match.player1Name}</td>
+                <td>${match.player2Name}</td>
+                <td>${resultText}</td>
+                <td>${match.winnerName}</td>
+                <td>${pointsText}</td>
+            `;
+            
+            tableBody.appendChild(row);
+        });
+    }
 }
 
 // Registro de partido
@@ -251,6 +324,30 @@ document.getElementById('match-form').addEventListener('submit', function (e) {
         loserPoints = 1;
     }
 
+    // Obtener nombres de los jugadores
+    const player1Name = tournamentData[currentCategory].players.find(p => p.id === player1Id).name;
+    const player2Name = tournamentData[currentCategory].players.find(p => p.id === player2Id).name;
+    const winnerName = winner === player1Id ? player1Name : player2Name;
+
+    // Crear objeto de partido para el historial
+    const matchRecord = {
+        date: new Date().toISOString(),
+        player1Id: player1Id,
+        player2Id: player2Id,
+        player1Name: player1Name,
+        player2Name: player2Name,
+        set1: [set1Player1, set1Player2],
+        set2: [set2Player1, set2Player2],
+        set3: [set3Player1, set3Player2],
+        winnerId: winner,
+        winnerName: winnerName,
+        winnerPoints: winnerPoints,
+        loserPoints: loserPoints
+    };
+
+    // Añadir al historial
+    tournamentData[currentCategory].matchHistory.push(matchRecord);
+
     // Actualizar estadísticas
     updatePlayerStats(player1Id, player2Id, winner, {
         set1: [set1Player1, set1Player2],
@@ -260,8 +357,9 @@ document.getElementById('match-form').addEventListener('submit', function (e) {
         loserPoints: loserPoints
     });
 
-    // Actualizar tabla y guardar datos
+    // Actualizar tablas y guardar datos
     updateStandingsTable();
+    updateMatchHistoryTable();
     saveData();
 
     // Limpiar formulario
@@ -312,11 +410,24 @@ function updatePlayerStats(player1Id, player2Id, winnerId, matchData) {
     player2Stats.setsWon += player2SetsWon;
     player2Stats.setsLost += player1SetsWon;
 
-    // Actualizar juegos ganados/perdidos
-    player1Stats.gamesWon += matchData.set1[0] + matchData.set2[0] + (matchData.set3[0] > matchData.set3[1] ? 1 : 0);
-    player1Stats.gamesLost += matchData.set1[1] + matchData.set2[1] + (matchData.set3[0] < matchData.set3[1] ? 1 : 0);
-    player2Stats.gamesWon += matchData.set1[1] + matchData.set2[1] + (matchData.set3[1] > matchData.set3[0] ? 1 : 0);
-    player2Stats.gamesLost += matchData.set1[0] + matchData.set2[0] + (matchData.set3[1] < matchData.set3[0] ? 1 : 0);
+    // Actualizar juegos ganados/perdidos (sets 1 y 2 normalmente)
+    player1Stats.gamesWon += matchData.set1[0] + matchData.set2[0];
+    player1Stats.gamesLost += matchData.set1[1] + matchData.set2[1];
+    player2Stats.gamesWon += matchData.set1[1] + matchData.set2[1];
+    player2Stats.gamesLost += matchData.set1[0] + matchData.set2[0];
+    
+    // Manejar el super tiebreak (set 3) - contar como 1 juego
+    if (matchData.set3[0] !== null && matchData.set3[1] !== null) {
+        if (matchData.set3[0] > matchData.set3[1]) {
+            // Jugador 1 ganó el super tiebreak
+            player1Stats.gamesWon += 1;
+            player2Stats.gamesLost += 1;
+        } else {
+            // Jugador 2 ganó el super tiebreak
+            player2Stats.gamesWon += 1;
+            player1Stats.gamesLost += 1;
+        }
+    }
 }
 
 function saveData() {
@@ -326,8 +437,10 @@ function saveData() {
 // Reiniciar torneo
 document.getElementById('reset-btn').addEventListener('click', function () {
     if (confirm('¿Estás seguro de que deseas reiniciar el torneo? Todos los datos serán borrados.')) {
+        // Solo reinicia la categoría actual
         initializeStandings(currentCategory);
         updateStandingsTable();
+        updateMatchHistoryTable();
         saveData();
     }
 });
